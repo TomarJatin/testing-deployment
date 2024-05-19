@@ -1,27 +1,16 @@
-name: Deploy to Vercel
-
-on:
-  push:
-    branches:
-      - main # or the branch you want to deploy
-
+name: deploy nexturl to vercel
+on: [push, pull_request]
 jobs:
-  deploy:
+  vercel: 
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v2
 
-      - name: Install Vercel CLI
-        run: npm install --global vercel@latest
-
-      - name: Create Vercel Project
-        run: |
-          cd .
-          PROJECT_ID=$(vercel projects add ${{ github.event.repository.name }} ${{ secrets.VERCEL_ORG_ID }} --token=${{ secrets.VERCEL_TOKEN }} | sed -n 's/.*\(https:\/\/vercel.com\/[^/]*\/[^/]*\).*/\1/p')
-          echo "VERCEL_PROJECT_URL=$PROJECT_ID" >> $GITHUB_ENV
-
-      - name: Deploy Project to Vercel
-        run: |
-          cd .
-          vercel deploy --prod --token=${{ secrets.VERCEL_TOKEN }} --confirm
+# deploy app to vercel
+      - name: deploy site to vercel      
+        uses: amondnet/vercel-action@v20
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }} # Required
+          github-token: ${{ secrets.GITHUB_TOKEN }} #Optional 
+          vercel-org-id: ${{ secrets.ORG_ID}}  #Required
+          vercel-project-id: ${{ secrets.PROJECT_ID}} #Required
