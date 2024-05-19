@@ -24,4 +24,4 @@ jobs:
       - name: Deploy Project to Vercel
         run: |
           cd .
-          vercel deploy --prod --token=${{ secrets.VERCEL_TOKEN }} --confirm --root=./src
+          vercel deploy --prod --token=${{ secrets.VERCEL_TOKEN }} --confirm --root-dir=./src
